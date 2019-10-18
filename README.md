@@ -1,0 +1,2 @@
+# go
+Examples of Go
