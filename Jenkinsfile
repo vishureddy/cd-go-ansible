@@ -2,6 +2,7 @@ pipeline {
    agent any
    environment {
        registry = "192.168.43.173:5000"
+       //url = "${registry} + ${BUILD_NUMBER}"
        GOCACHE = "/tmp"
    }
    stages {
@@ -44,9 +45,10 @@ pipeline {
         //        registryCredential = 'dockerhub'
         //    }
            steps{
+
                script {
-                   def appimage = docker.build registry + ":$BUILD_NUMBER"
-                   docker.withRegistry('') {
+                  def appimage = docker.build registry + "/$BUILD_NUMBER"
+                   docker.withRegistry( '', registryCredential ) {
                        appimage.push()
                        appimage.push('latest')
                    }
